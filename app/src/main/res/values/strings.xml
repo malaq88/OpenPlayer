@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">OpenPlayer</string>
+    <string name="tab_songs">Músicas</string>
+    <string name="tab_artists">Artistas</string>
+    <string name="tab_albums">Álbuns</string>
+    <string name="tab_genres">Gêneros</string>
+    <string name="tab_folders">Pastas</string>
+    <string name="tab_playlists">Playlists</string>
+    <string name="create_playlist">Criar playlist</string>
+    <string name="playlist_name">Nome da playlist</string>
+    <string name="create">Criar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="add_to_playlist">Adicionar à playlist</string>
+    <string name="add_album_to_playlist">Adicionar álbum à playlist</string>
+    <string name="no_playlists_yet">Nenhuma playlist criada ainda.</string>
+    <string name="permission_required">Permissão de áudio necessária para localizar suas músicas.</string>
+    <string name="retry">Tentar novamente</string>
+    <string name="no_music_found">Nenhuma música encontrada no dispositivo.</string>
+    <string name="refresh">Atualizar biblioteca</string>
+    <string name="songs_count">%1$d músicas</string>
+    <string name="albums_and_songs">%1$d álbuns · %2$d músicas</string>
+    <string name="play_all">Reproduzir tudo</string>
+    <string name="shuffle_all">Embaralhar e reproduzir</string>
+    <string name="save">Salvar</string>
+    <string name="select_playlist_songs">Selecione as músicas (%1$d marcadas)</string>
+    <string name="album">Álbum</string>
+    <string name="playlist">Playlist</string>
+</resources>
