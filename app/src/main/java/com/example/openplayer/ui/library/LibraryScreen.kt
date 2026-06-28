@@ -37,9 +37,11 @@ import com.example.openplayer.data.model.Library
 import com.example.openplayer.ui.components.AlbumListItem
 import com.example.openplayer.ui.components.AppBarLogoTitle
 import com.example.openplayer.ui.components.ArtistListItem
+import com.example.openplayer.ui.components.FolderListItem
+import com.example.openplayer.ui.components.GenreListItem
 import com.example.openplayer.ui.components.OverlappingTabPanel
 import com.example.openplayer.ui.components.OverlappingTabRow
-import com.example.openplayer.ui.components.SimpleListItem
+import com.example.openplayer.ui.components.PlaylistListItem
 import com.example.openplayer.ui.components.SongListItem
 import com.example.openplayer.ui.playlist.CreatePlaylistDialog
 
@@ -198,7 +200,7 @@ private fun LibraryContent(
             }
             LibraryTab.GENRES -> {
                 itemsIndexed(library.genres, key = { _, genre -> genre.name }) { index, genre ->
-                    SimpleListItem(
+                    GenreListItem(
                         title = genre.name,
                         subtitle = stringResource(R.string.songs_count, genre.songCount),
                         rowIndex = index,
@@ -208,7 +210,7 @@ private fun LibraryContent(
             }
             LibraryTab.FOLDERS -> {
                 itemsIndexed(library.folders, key = { _, folder -> folder.path }) { index, folder ->
-                    SimpleListItem(
+                    FolderListItem(
                         title = folder.name,
                         subtitle = stringResource(R.string.songs_count, folder.songCount),
                         rowIndex = index,
@@ -227,7 +229,7 @@ private fun LibraryContent(
                     }
                 } else {
                     itemsIndexed(playlists, key = { _, playlist -> playlist.id }) { index, playlist ->
-                        SimpleListItem(
+                        PlaylistListItem(
                             title = playlist.name,
                             subtitle = stringResource(R.string.songs_count, playlist.songCount),
                             rowIndex = index,

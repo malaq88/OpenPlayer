@@ -116,6 +116,98 @@ fun SelectableSongListItem(
 }
 
 @Composable
+fun FolderListItem(
+    title: String,
+    subtitle: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    rowIndex: Int = 0,
+) {
+    IconTitledListItem(
+        title = title,
+        subtitle = subtitle,
+        onClick = onClick,
+        modifier = modifier,
+        rowIndex = rowIndex,
+        leadingContent = { FolderArt() },
+    )
+}
+
+@Composable
+fun PlaylistListItem(
+    title: String,
+    subtitle: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    rowIndex: Int = 0,
+) {
+    IconTitledListItem(
+        title = title,
+        subtitle = subtitle,
+        onClick = onClick,
+        modifier = modifier,
+        rowIndex = rowIndex,
+        leadingContent = { PlaylistArt() },
+    )
+}
+
+@Composable
+private fun IconTitledListItem(
+    title: String,
+    subtitle: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    rowIndex: Int = 0,
+    leadingContent: @Composable () -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .stripedRowBackground(rowIndex)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        leadingContent()
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 12.dp),
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+@Composable
+fun GenreListItem(
+    title: String,
+    subtitle: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    rowIndex: Int = 0,
+) {
+    IconTitledListItem(
+        title = title,
+        subtitle = subtitle,
+        onClick = onClick,
+        modifier = modifier,
+        rowIndex = rowIndex,
+        leadingContent = { GenreArt(genreName = title) },
+    )
+}
+
+@Composable
 fun SimpleListItem(
     title: String,
     subtitle: String,

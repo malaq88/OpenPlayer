@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -12,6 +14,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -59,6 +62,55 @@ fun SongArt(
     size: Dp = ListItemArtSize,
 ) {
     AlbumArt(albumArtUri = null, modifier = modifier, size = size)
+}
+
+@Composable
+fun ListIconArt(
+    imageVector: ImageVector,
+    modifier: Modifier = Modifier,
+    size: Dp = ListItemArtSize,
+) {
+    Surface(
+        modifier = modifier.size(size),
+        shape = MaterialTheme.shapes.small,
+        color = MaterialTheme.colorScheme.surfaceVariant,
+    ) {
+        Box(
+            modifier = Modifier.size(size),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = imageVector,
+                contentDescription = null,
+                modifier = Modifier.size(size * 0.45f),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+@Composable
+fun FolderArt(
+    modifier: Modifier = Modifier,
+    size: Dp = ListItemArtSize,
+) {
+    ListIconArt(
+        imageVector = Icons.Filled.Folder,
+        modifier = modifier,
+        size = size,
+    )
+}
+
+@Composable
+fun PlaylistArt(
+    modifier: Modifier = Modifier,
+    size: Dp = ListItemArtSize,
+) {
+    ListIconArt(
+        imageVector = Icons.AutoMirrored.Filled.List,
+        modifier = modifier,
+        size = size,
+    )
 }
 
 @Composable
