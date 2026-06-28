@@ -36,7 +36,12 @@ fun SongListItem(
             .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Column(modifier = Modifier.weight(1f)) {
+        SongArt()
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 12.dp),
+        ) {
             Text(
                 text = song.title,
                 style = MaterialTheme.typography.bodyLarge,
@@ -82,7 +87,12 @@ fun SelectableSongListItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Checkbox(checked = selected, onCheckedChange = { onToggle() })
-        Column(modifier = Modifier.weight(1f)) {
+        SongArt()
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 12.dp),
+        ) {
             Text(
                 text = song.title,
                 style = MaterialTheme.typography.bodyLarge,
@@ -138,6 +148,44 @@ fun SimpleListItem(
 }
 
 @Composable
+fun ArtistListItem(
+    title: String,
+    subtitle: String,
+    albumArtUris: List<android.net.Uri?>,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    rowIndex: Int = 0,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .stripedRowBackground(rowIndex)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        StackedAlbumArt(albumArtUris = albumArtUris)
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 12.dp),
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+@Composable
 fun AlbumListItem(
     title: String,
     subtitle: String,
@@ -154,7 +202,7 @@ fun AlbumListItem(
             .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        AlbumArt(albumArtUri = albumArtUri, size = 56.dp)
+        AlbumArt(albumArtUri = albumArtUri)
         Column(
             modifier = Modifier
                 .weight(1f)

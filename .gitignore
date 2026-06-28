@@ -1,15 +1,66 @@
+# Built application files
+*.apk
+*.ap_
+*.aab
+
+# Android Studio / IntelliJ
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+.idea/
+!.idea/codeStyles/
+!.idea/runConfigurations.xml
+!.idea/inspectionProfiles/
+!.idea/vcs.xml
+!.idea/.name
+!.idea/compiler.xml
+!.idea/copyright/
+!.idea/encodings.xml
+!.idea/misc.xml
+!.idea/modules.xml
+!.idea/scopes/
+!.idea/gradle.xml
+!.idea/jarRepositories.xml
+!.idea/kotlinc.xml
+!.idea/navEditor.xml
+!.idea/assetWizardSettings.xml
+!.idea/deploymentTargetDropDown.xml
+!.idea/deploymentTargetSelector.xml
+
+# Gradle
+.gradle/
+build/
+**/build/
+
+# Local configuration
 local.properties
+
+# Kotlin
+.kotlin/
+
+# NDK / native
+.externalNativeBuild/
+.cxx/
+
+# Captures (screenshots from Android Studio)
+captures/
+
+# Log and crash dumps
+*.log
+*.hprof
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Signing (never commit release keys)
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+
+# Secrets and environment
+.env
+.env.*
+google-services.json
+
+# Cursor / editor temp
+.cursor/

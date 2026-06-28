@@ -8,14 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,6 +36,9 @@ import com.example.openplayer.R
 import com.example.openplayer.data.model.Library
 import com.example.openplayer.ui.components.AlbumListItem
 import com.example.openplayer.ui.components.AppBarLogoTitle
+import com.example.openplayer.ui.components.ArtistListItem
+import com.example.openplayer.ui.components.OverlappingTabPanel
+import com.example.openplayer.ui.components.OverlappingTabRow
 import com.example.openplayer.ui.components.SimpleListItem
 import com.example.openplayer.ui.components.SongListItem
 import com.example.openplayer.ui.playlist.CreatePlaylistDialog
@@ -56,6 +57,17 @@ fun LibraryScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val playlists by viewModel.playlists.collectAsStateWithLifecycle()
     var showCreatePlaylist by remember { mutableStateOf(false) }
+
+    val tabs = remember {
+        listOf(
+            LibraryTab.SONGS to R.string.tab_songs,
+            LibraryTab.ARTISTS to R.string.tab_artists,
+            LibraryTab.ALBUMS to R.string.tab_albums,
+            LibraryTab.GENRES to R.string.tab_genres,
+            LibraryTab.FOLDERS to R.string.tab_folders,
+            LibraryTab.PLAYLISTS to R.string.tab_playlists,
+        )
+    }
 
     Scaffold(
         modifier = modifier,
@@ -83,34 +95,37 @@ fun LibraryScreen(
                 .fillMaxSize()
                 .padding(padding),
         ) {
-            LibraryTabRow(
+            OverlappingTabRow(
+                tabs = tabs,
                 selectedTab = uiState.selectedTab,
                 onTabSelected = viewModel::selectTab,
             )
 
-            when {
-                uiState.permissionDenied -> PermissionDeniedState(onRetry = viewModel::loadLibrary)
-                uiState.isLoading -> Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) { CircularProgressIndicator() }
-                uiState.errorMessage != null -> ErrorState(
-                    message = uiState.errorMessage.orEmpty(),
-                    onRetry = viewModel::loadLibrary,
-                )
-                uiState.library == null -> EmptyLibraryState()
-                else -> LibraryContent(
-                    tab = uiState.selectedTab,
-                    library = uiState.library!!,
-                    playlists = playlists,
-                    songs = viewModel.filteredSongs(),
-                    viewModel = viewModel,
-                    onNavigateToArtist = onNavigateToArtist,
-                    onNavigateToAlbum = onNavigateToAlbum,
-                    onNavigateToGenre = onNavigateToGenre,
-                    onNavigateToFolder = onNavigateToFolder,
-                    onNavigateToPlaylist = onNavigateToPlaylist,
-                )
+            OverlappingTabPanel(modifier = Modifier.weight(1f)) {
+                when {
+                    uiState.permissionDenied -> PermissionDeniedState(onRetry = viewModel::loadLibrary)
+                    uiState.isLoading -> Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) { CircularProgressIndicator() }
+                    uiState.errorMessage != null -> ErrorState(
+                        message = uiState.errorMessage.orEmpty(),
+                        onRetry = viewModel::loadLibrary,
+                    )
+                    uiState.library == null -> EmptyLibraryState()
+                    else -> LibraryContent(
+                        tab = uiState.selectedTab,
+                        library = uiState.library!!,
+                        playlists = playlists,
+                        songs = viewModel.filteredSongs(),
+                        viewModel = viewModel,
+                        onNavigateToArtist = onNavigateToArtist,
+                        onNavigateToAlbum = onNavigateToAlbum,
+                        onNavigateToGenre = onNavigateToGenre,
+                        onNavigateToFolder = onNavigateToFolder,
+                        onNavigateToPlaylist = onNavigateToPlaylist,
+                    )
+                }
             }
         }
     }
@@ -125,35 +140,6 @@ fun LibraryScreen(
                 }
             },
         )
-    }
-}
-
-@Composable
-private fun LibraryTabRow(
-    selectedTab: LibraryTab,
-    onTabSelected: (LibraryTab) -> Unit,
-) {
-    val tabs = listOf(
-        LibraryTab.SONGS to R.string.tab_songs,
-        LibraryTab.ARTISTS to R.string.tab_artists,
-        LibraryTab.ALBUMS to R.string.tab_albums,
-        LibraryTab.GENRES to R.string.tab_genres,
-        LibraryTab.FOLDERS to R.string.tab_folders,
-        LibraryTab.PLAYLISTS to R.string.tab_playlists,
-    )
-
-    LazyRow(
-        modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
-        horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp),
-    ) {
-        itemsIndexed(tabs, key = { _, tab -> tab.first }) { _, (tab, labelRes) ->
-            FilterChip(
-                selected = selectedTab == tab,
-                onClick = { onTabSelected(tab) },
-                label = { Text(stringResource(labelRes)) },
-            )
-        }
     }
 }
 
@@ -186,9 +172,14 @@ private fun LibraryContent(
             }
             LibraryTab.ARTISTS -> {
                 itemsIndexed(library.artists, key = { _, artist -> artist.name }) { index, artist ->
-                    SimpleListItem(
+                    val albumArtUris = library.albums
+                        .filter { it.artist == artist.name }
+                        .take(3)
+                        .map { it.albumArtUri }
+                    ArtistListItem(
                         title = artist.name,
                         subtitle = stringResource(R.string.albums_and_songs, artist.albumCount, artist.songCount),
+                        albumArtUris = albumArtUris,
                         rowIndex = index,
                         onClick = { onNavigateToArtist(artist.name) },
                     )

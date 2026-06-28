@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">OpenPlayer</string>
-    <string name="tab_songs">Músicas</string>
+    <string name="tab_songs">Faixas</string>
     <string name="tab_artists">Artistas</string>
     <string name="tab_albums">Álbuns</string>
     <string name="tab_genres">Gêneros</string>
